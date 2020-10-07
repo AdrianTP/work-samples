@@ -99,7 +99,8 @@ class Api::UsersController < ApplicationController
   returns :user_response, :code => :created, :desc => 'The details of the updated User'
 
   def update
-    render json: { 'message' => 'Cannot update other Users' }
+    render json: { 'message' => 'Cannot update other Users' } unless @user == current_user
+
     @user = current_user
     @user.errors_add(:current_password, 'is incorrect') unless @user.authenticate(params[:current_password])
 
